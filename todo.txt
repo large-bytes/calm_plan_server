@@ -1,0 +1,9 @@
+) get sql Alchemy 
+) add pytest 
+) create calm plan DB
+) design table 
+) add basic crud views (no need to test)
+) view for returning all tasks in order of hardest-easiest
+
+
+
