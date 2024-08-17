@@ -11,4 +11,4 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-# REF Create model attributes/columns in SQL(Relation Databases) in fastAPI docs
+# ERIC Roby yt - how to build a FastAPI app with PostgreSQL - 12:21 mins in to vid
