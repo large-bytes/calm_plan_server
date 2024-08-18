@@ -11,4 +11,5 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+
 # ERIC Roby yt - how to build a FastAPI app with PostgreSQL - 12:21 mins in to vid

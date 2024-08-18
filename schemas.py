@@ -4,7 +4,7 @@ class TaskBase(BaseModel):
     name: str
     priority: str
     
-class TaskCreate    
+class TaskCreate(TaskBase):   
     pass
 
 #Task inherits form TaskBase 
@@ -13,5 +13,5 @@ class Task(TaskBase):
     
 
     class Config:
-    orm_mode = True
+        orm_mode = True
 

@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "pydantic",
+        "Sessionlocal",
         "sessionmaker",
         "sqlalchemy"
     ]
