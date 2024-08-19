@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import models, schemas 
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
-# from typing import List, Annotated
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -28,7 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-test_tasks_db= [
+tasks= [
         {"id": "1", "name": "Learn JavaScript", "priority": "five"},
         {"id": "2", "name": "Deploy app", "priority": "five"},
         {"id": "3", "name": "Update project dependencies", "priority": "three"},
@@ -39,5 +38,5 @@ test_tasks_db= [
 
 @app.get("/tasks")
 async def read_item():
-    return {"all_tasks": test_tasks_db }
+    return {"all_tasks": tasks }
 
