@@ -2,7 +2,8 @@
 -) create calm plan DB
 -) design table 
 
-) add pytest 
+-) add pytest 
+) create fixture in test file for testing crud - use tasks[] in main.py 
 ) add basic crud views
 ) view for returning all tasks in order of hardest-easiest
 
