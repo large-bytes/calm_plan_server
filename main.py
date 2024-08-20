@@ -2,11 +2,12 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import models, schemas 
-from .database import engine, SessionLocal
+from database  import engine, SessionLocal, init_db
 from sqlalchemy.orm import Session
-models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+init_db()
 
 def get_db():
     db = Sessionlocal()
