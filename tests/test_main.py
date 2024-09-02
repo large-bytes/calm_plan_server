@@ -10,4 +10,7 @@ def test_read_tasks(client):
     "all_tasks": []
 }
 
-# add test_db fixture - this should create a test db 
+#  write a test to confirm test db is empty
+
+#  write a fixture to seed database 
+#  write test to get all 
