@@ -9,4 +9,3 @@ class Task(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     priority = Column(String, index=True)
-

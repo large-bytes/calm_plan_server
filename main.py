@@ -28,7 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-tasks= [
+task_list= [
         {"id": "1", "name": "Learn JavaScript", "priority": "five"},
         {"id": "2", "name": "Deploy app", "priority": "five"},
         {"id": "3", "name": "Update project dependencies", "priority": "three"},
@@ -37,7 +37,7 @@ tasks= [
     ]
 
 
-@app.get("/tasks")
-async def read_item():
-    return {"all_tasks": tasks }
+@app.get("/tasks_list")
+async def tasks_list():
+    return {"all_tasks": task_list }
 
