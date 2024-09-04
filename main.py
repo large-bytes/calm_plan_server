@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import models, schemas 
+
+from . import models
 from database  import engine, SessionLocal, init_db
 from sqlalchemy.orm import Session
 
@@ -10,7 +11,7 @@ app = FastAPI()
 init_db()
 
 def get_db():
-    db = Sessionlocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
@@ -41,3 +42,6 @@ task_list= [
 async def tasks_list():
     return {"all_tasks": task_list }
 
+@app.get("/tasks")
+async def read_all(db: Session = Depends(get_db)):
+    return db.query(models.Task).all()
