@@ -8,12 +8,10 @@ from sqlalchemy_utils import create_database, drop_database, database_exists
 from ..database import Base
 
 from . utils import TEST_DB_URL, TestDatabase
-from .. models import Task
-
 
 @pytest.fixture(scope="session", autouse=True)
 def create_and_delete_test_db():
-    print("create and deletedb")
+    print("create and delete db")
     if database_exists(TEST_DB_URL):
         drop_database(TEST_DB_URL)
     create_database(TEST_DB_URL)
