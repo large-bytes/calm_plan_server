@@ -18,10 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.get("/tasks_list")
-# async def tasks_list():
-#     return {"all_tasks": task_list }
-
 @app.get("/tasks")
 def read_all(db: Session = Depends(get_db)):
     results = db.query(models.Task).all()

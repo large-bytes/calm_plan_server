@@ -3,11 +3,16 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import close_all_sessions
+from fastapi.testclient import TestClient
+from ..main import app
 
 from sqlalchemy_utils import create_database, drop_database, database_exists
 from ..database import Base
 
 from . utils import TEST_DB_URL, TestDatabase
+
+client = TestClient(app)
+
 
 @pytest.fixture(scope="session", autouse=True)
 def create_and_delete_test_db():
@@ -21,20 +26,24 @@ def create_and_delete_test_db():
     Base.metadata.create_all(bind=test_engine)
     print('tables created')
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
-
+    print('session created')
     try:
         test_db_session = SessionLocal()
+        print("est_db_session")
         TestDatabase(session=test_db_session)
+        yield test_db_session
+        print('yield test_db_session')
     finally:
         test_db_session.close()
-
-    yield
 
     close_all_sessions()
     drop_database(TEST_DB_URL)
     # print("Test database cleaned up")
 
-    
+@pytest.fixture(scope="session", autouse=True)
+def client(create_and_delete_test_db):
+    return TestClient(app)
+
 # @pytest.fixture(scope="module")
 # def add_tasks_to_db(test_db):
 #     db = test_db()
@@ -55,8 +64,7 @@ def create_and_delete_test_db():
 #     db.commit()
 #
 # @pytest.fixture(scope="module")
-# def client(test_db, add_tasks_to_db):
-#     return TestClient(app)
+
 #
 #
 # @pytest.fixture(scope="module")

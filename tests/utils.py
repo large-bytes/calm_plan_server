@@ -7,7 +7,7 @@ class TestDatabase:
     def __init__(self, session: Session):
         self.session = session
 
-    def populate_test_database(self):
+    def populate_test_database(self, ):
         new_task1 = Task(name="Learn JavaScript", priority="five")
         new_task2 = Task(name="Learn RUST", priority="four")
         print("populate test database")

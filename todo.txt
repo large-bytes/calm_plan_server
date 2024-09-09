@@ -8,5 +8,13 @@
 ) view for returning all tasks in order of hardest-easiest
 
 
+BLOCKED:
+Pytest using test db:
+debug:
+look up using fixtures from conftest in test_main
+
+1) add client to confest test, add #create_and_delete_test_db to client
+
+
 
 
