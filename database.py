@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-
 SQLALCHEMY_DATABASE_URL = "postgresql://tomfyfe@localhost:5432/calm_plan"
 
 engine = create_engine(

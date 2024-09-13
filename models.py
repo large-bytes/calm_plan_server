@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String
 
-from database import Base
+from . import database
+base = database.Base
 
 # TASK MODEL CLASS - 
-class Task(Base):
+class Task(base):
     __tablename__ = "tasks"
     
     id = Column(Integer, primary_key=True, index=True)

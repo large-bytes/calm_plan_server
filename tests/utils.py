@@ -7,24 +7,26 @@ class TestDatabase:
     def __init__(self, session: Session):
         self.session = session
 
-    def populate_test_database(self, ):
+    def populate_test_database(self):
+        print("populate test DB")
         new_task1 = Task(name="Learn JavaScript", priority="five")
         new_task2 = Task(name="Learn RUST", priority="four")
-        print("populate test database")
+        print("populated test DB")
+
         self.session.add_all([new_task1, new_task2])
-        print("tasks added")
+        print("session.add_all")
 
         try:
-            print("try to commit")
+
             self.session.commit()
-            print("committed")
+            print('Commited!')
         except Exception as e:
             print(f"Failed to commit: {e}")
             self.session.rollback()
             raise
 
 def override_get_db():
-    test_engine = create_engine(TEST_DB_URL)
+    test_engine = create_engine(TEST_DB_URL,)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
     db = SessionLocal()
     try:
