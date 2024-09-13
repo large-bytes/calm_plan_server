@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import database
 from sqlalchemy.orm import Session
-from . import models
+from .models import Task
 app = FastAPI()
 
 origins = [
@@ -20,5 +20,5 @@ app.add_middleware(
 
 @app.get("/tasks")
 def read_all(db: Session = Depends(database.get_db)):
-    results = db.query(models.Task).all()
+    results = db.query(Task).all()
     return results
