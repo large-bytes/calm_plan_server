@@ -2,7 +2,7 @@ def test_returns_client_gives_200(client):
     response = client.get("/tasks")
     assert response.status_code == 200
 
-def test_returns_test_data(client):
+def test_returns_test_data(client, create_and_delete_test_db):
     response = client.get("/tasks")
     response_data = response.json()
     print(response_data)
