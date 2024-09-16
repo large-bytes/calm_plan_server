@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 from anyio.pytest_plugin import pytest_fixture_setup
 from psycopg import transaction
 import pytest
@@ -50,3 +51,22 @@ def test_returns_test_data():
     print(response_data)
     assert response.json == []
 
+=======
+from fastapi.testclient import TestClient
+from ..main import app, FastAPI
+
+client = TestClient(app)
+
+
+
+def test_client_gives_200():
+    response = client.get("/tasks")
+    assert response.status_code == 200
+
+# def test_returns_test_data(client, create_and_delete_test_db):
+#     response = client.get("/tasks")
+#     response_data = response.json()
+#     print(response_data)
+#     assert response.json == [{"id":"1", "name":"Learn JavaScript", "priority":"five"},
+#                              {"id":"2", "name":"Learn RUST", "priority":"four"}]
+>>>>>>> Stashed changes

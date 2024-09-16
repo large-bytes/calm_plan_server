@@ -10,11 +10,10 @@
 
 BLOCKED:
 Pytest using test db:
-debug:
-look up using fixtures from conftest in test_main
+tests:
+- get 200 from test client
+reset all files as per the examples
 
-1) add client to confest test, add #create_and_delete_test_db to client
+see
 
-
-
-
+Saved working directory and index state WIP on pytest_rebuild: e765d7f test_data_base_connection(db_connection) fails. Maybe rebuild db_connection fixture
