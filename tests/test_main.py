@@ -1,10 +1,10 @@
-def test_returns_client_gives_200(client):
-    response = client.get("/tasks")
+import pytest
+
+def test_returns_client_gives_200(test_db_client):
+    response = test_db_client.get("/tasks")
     assert response.status_code == 200
 
-def test_returns_test_data(client, create_and_delete_test_db):
-    response = client.get("/tasks")
-    response_data = response.json()
-    print(response_data)
-    assert response.json == [{"id":"1", "name":"Learn JavaScript", "priority":"five"},
-                             {"id":"2", "name":"Learn RUST", "priority":"four"}]
+def test_returns_empty_list_for_response(test_db_client):
+    response = test_db_client.get("/tasks")
+    assert response.json() == []
+

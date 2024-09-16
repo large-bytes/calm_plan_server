@@ -1,10 +1,13 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import database
+from .database import get_db, Base, engine
 from sqlalchemy.orm import Session
+from .models import Task
 from . import models
 app = FastAPI()
+Base.metadata.create_all(bind=engine)
+get_db()
 
 origins = [
     "http://localhost:8000",
@@ -19,6 +22,6 @@ app.add_middleware(
 )
 
 @app.get("/tasks")
-def read_all(db: Session = Depends(database.get_db)):
-    results = db.query(models.Task).all()
+def read_all(db: Session = Depends(get_db)):
+    results = db.query(Task).all()
     return results
