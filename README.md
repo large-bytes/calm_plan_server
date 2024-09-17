@@ -12,3 +12,5 @@
 3. You'll need to install dependencies (`pip install XXX`)
    - SQLAlchemy
    - psycopg2
+
+4. Run `fastapi run main.py` to start the server
