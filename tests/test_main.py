@@ -13,3 +13,6 @@ def test_post_adds_data_to_test_db(test_db_client):
     response = test_db_client.post("/add_task/",
                                    json ={"name": "test_task", "priority": "five"})
     assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "test_task"
+    assert data["priority"] == "five"

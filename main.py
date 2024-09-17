@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
+from . import schemas
 from .database import get_db, Base, engine
 from sqlalchemy.orm import Session
 from .models import Task
@@ -27,5 +28,9 @@ def read_all(db: Session = Depends(get_db)):
     return results
 
 @app.post("/add_task")
-def add_task(db: Session = Depends(get_db)):
-
+def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
+    new_task = models.Task(name=task.name, priority=task.priority)
+    db.add(new_task)
+    db.commit()
+    db.refresh(new_task)
+    return new_task
