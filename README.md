@@ -5,7 +5,11 @@
 1. cd into the directory, create a `.env` file with the following information:
 
    - DATABASE_URL
-   - e.g DATABASE_URL=postgresql://josephlander@localhost:5432/calm_plan
+      - e.g DATABASE_URL=postgresql://josephlander@localhost:5432/calm_plan
+   - TEST_DATABASE_URL
+      - e.g. TEST_DATABASE_URL=postgresql://tomfyfe@localhost:5432/calm_plan_test
+
+   If you haven't created these PostgreSQL databases you will need to do so first
 
 2. Run `pipenv shell` to create a virtual environment
 
