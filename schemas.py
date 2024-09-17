@@ -11,7 +11,6 @@ class TaskCreate(TaskBase):
 #Task inherits form TaskBase 
 class Task(TaskBase):
     id: int
-    
 
     class ConfigDict:
         orm_mode = True

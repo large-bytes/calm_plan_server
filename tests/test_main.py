@@ -27,3 +27,4 @@ def test_post_adds_data_to_test_db(test_db_client):
     data = response.json()
     assert data["name"] == "test_task"
     assert data["priority"] == "five"
+    assert data["id"] == 1
