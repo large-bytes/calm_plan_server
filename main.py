@@ -25,3 +25,7 @@ app.add_middleware(
 def read_all(db: Session = Depends(get_db)):
     results = db.query(Task).all()
     return results
+
+@app.post("/add_task")
+def add_task(db: Session = Depends(get_db)):
+
