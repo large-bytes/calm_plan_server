@@ -5,7 +5,8 @@ class TaskBase(BaseModel):
     priority: str
     
 class TaskCreate(TaskBase):   
-    pass
+    name: str
+    priority: str
 
 #Task inherits form TaskBase 
 class Task(TaskBase):

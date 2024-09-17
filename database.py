@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine
+
 from sqlalchemy.orm import sessionmaker, declarative_base
 # load environment variables
 from dotenv import load_dotenv
@@ -13,8 +14,8 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
-Base.metadata.create_all(bind=engine)
 
+print("metadata")
 def get_db():
     db = SessionLocal()
     try:
