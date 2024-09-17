@@ -1,8 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from ..database import Base
+# load environment variables
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-TEST_DATABASE_URL = "postgresql://tomfyfe@localhost:5432/calm_plan_test"
+TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
 
 engine = create_engine(
     TEST_DATABASE_URL
