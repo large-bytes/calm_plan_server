@@ -2,7 +2,7 @@
 
 ## Setting up the project
 1. We are using Pipenv to manage our dependencies and environments: https://pipenv.pypa.io/en/latest/installation.html
-
+   (if you don't want to use pipenv, set up you virtual env accordingly and skip to step 6)
 2. Go to project directory
 
 3. Get pipenv: pip install pipenv
