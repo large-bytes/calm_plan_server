@@ -21,7 +21,7 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
 
 
 def test_post_adds_data_to_test_db(test_db_client):
-    response = test_db_client.post("/add_task/",
+    response = test_db_client.post("/tasks/",
                                    json ={"name": "test_task", "priority": "five"})
     assert response.status_code == 200
     data = response.json()
