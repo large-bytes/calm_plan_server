@@ -28,7 +28,7 @@ def read_all(db: Session = Depends(get_db)):
     results = db.query(Task).all()
     return results
 
-@app.post("/add_task")
+@app.post("/tasks")
 def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
     new_task = models.Task(name=task.name, priority=task.priority)
     db.add(new_task)
