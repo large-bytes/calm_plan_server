@@ -24,14 +24,21 @@ app.add_middleware(
 )
 
 @app.get("/tasks")
-def read_all(db: Session = Depends(get_db)):
+async def read_all(db: Session = Depends(get_db)):
     results = db.query(Task).all()
     return results
 
 @app.post("/tasks")
-def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
+async def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
     new_task = models.Task(name=task.name, priority=task.priority)
     db.add(new_task)
     db.commit()
     db.refresh(new_task)
     return new_task
+
+@app.get("/tasks/{id}")
+async def get_task_by_id(id: int, db: Session = Depends(get_db)):
+    # if id != int or id == None:
+    #     raise Exception("id must be an integer")
+    task = db.query(Task).filter(Task.id == id).first()
+    return task

@@ -24,3 +24,19 @@ def test_post_adds_data_to_test_db(test_db_client):
     assert data["name"] == "test_task"
     assert data["priority"] == "five"
     assert data["id"] == 1
+
+
+def test_get_task_by_id(test_db_client, populate_test_db):
+    response = test_db_client.get("/tasks/2")
+    assert response.status_code == 200
+    # with pytest.raises(Exception) as e:
+    #     test_db_client.get("/tasks/") or test_db_client.get(f"/tasks/{}")
+    # error_msg = str(e.value)
+    # assert error_msg == "id must be an integer"
+    data = response.json()
+    print(data)
+    assert data["name"] == "test name2"
+    assert data["priority"] == "one"
+    assert data["id"] == 2
+
+

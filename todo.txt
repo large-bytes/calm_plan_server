@@ -3,16 +3,26 @@
 -) design table 
 
 -) add pytest 
-) create fixture in test file for testing crud - use tasks[] in main.py 
-) add basic crud views
+-) create fixture in test file for testing crud - use tasks[] in main.py
+-) add basic crud views
 ) view for returning all tasks in order of hardest-easiest
 
 
-BLOCKED:
-Pytest using test db:
-tests:
-- get 200 from test client
-reset all files as per the examples
 
-see
+ambelic ?
+
+make routes for
+get by id
+delete
+update
+
+render/supabase -
+remote server/ remove db
+
+make users table, tasks is foriegn key.
+
+create users and authentication
+
+later -
+filter by priority
 
