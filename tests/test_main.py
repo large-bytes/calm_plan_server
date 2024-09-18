@@ -1,9 +1,5 @@
 import pytest
 from ..models import Task
-
-
-
-
 def test_returns_client_gives_200(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks")
     assert response.status_code == 200
