@@ -38,7 +38,7 @@ async def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
 
 @app.get("/tasks/{id}")
 async def get_task_by_id(id: int, db: Session = Depends(get_db)):
-    # if id != int or id == None:
-    #     raise Exception("id must be an integer")
     task = db.query(Task).filter(Task.id == id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
     return task

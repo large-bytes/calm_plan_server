@@ -12,7 +12,7 @@
 ambelic ?
 
 make routes for
-get by id
+- get by id (finish error handling on tests)
 delete
 update
 

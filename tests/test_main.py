@@ -27,16 +27,25 @@ def test_post_adds_data_to_test_db(test_db_client):
 
 
 def test_get_task_by_id(test_db_client, populate_test_db):
+    # Requests with a valid id
     response = test_db_client.get("/tasks/2")
     assert response.status_code == 200
-    # with pytest.raises(Exception) as e:
-    #     test_db_client.get("/tasks/") or test_db_client.get(f"/tasks/{}")
-    # error_msg = str(e.value)
-    # assert error_msg == "id must be an integer"
+
+    # Requests with a invalid id
+    response1 = test_db_client.get("/tasks/a")
+    assert response1.status_code == 422
+
+    # Request with None as ID (invalid type, FastAPI will handle this as 422)
+    response2 = test_db_client.get("/tasks/None")
+    assert response2.status_code == 422
+
+    # Request with non-existing task ID
+    response3 = test_db_client.get("/tasks/9999")
+    assert response3.status_code == 404
+
     data = response.json()
     print(data)
     assert data["name"] == "test name2"
     assert data["priority"] == "one"
     assert data["id"] == 2
-
 
