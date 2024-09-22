@@ -17,7 +17,7 @@ delete
 update
 
 render/supabase -
-remote server/ remove db
+remote server/ remote db
 
 make users table, tasks is foriegn key.
 

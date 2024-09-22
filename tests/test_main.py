@@ -1,4 +1,6 @@
 import pytest
+from sqlalchemy import true
+
 from ..models import Task
 def test_returns_client_gives_200(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks")
@@ -35,11 +37,11 @@ def test_get_task_by_id(test_db_client, populate_test_db):
     response1 = test_db_client.get("/tasks/a")
     assert response1.status_code == 422
 
-    # Request with None as ID (invalid type, FastAPI will handle this as 422)
+    # Request with None as ID
     response2 = test_db_client.get("/tasks/None")
     assert response2.status_code == 422
 
-    # Request with non-existing task ID
+    # Request with non-existing yet valid task ID
     response3 = test_db_client.get("/tasks/9999")
     assert response3.status_code == 404
 
@@ -48,4 +50,11 @@ def test_get_task_by_id(test_db_client, populate_test_db):
     assert data["name"] == "test name2"
     assert data["priority"] == "one"
     assert data["id"] == 2
+
+def test_delete_task(test_db_client, populate_test_db):
+    response = test_db_client.delete("/tasks/2")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+
 
