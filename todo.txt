@@ -13,7 +13,7 @@ ambelic ?
 
 make routes for
 - get by id (finish error handling on tests)
-delete
+- delete (need to test more thoroughly)
 update
 
 render/supabase -
