@@ -46,6 +46,8 @@ async def get_task_by_id(id: int, db: Session = Depends(get_db)):
 @app.delete("/tasks/{id}")
 async def delete_task_by_id(id: int, db: Session = Depends(get_db)):
     task = db.query(Task).filter(Task.id == id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
     db.delete(task)
     db.commit()
     return {"ok": True}

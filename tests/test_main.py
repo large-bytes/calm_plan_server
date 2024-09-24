@@ -33,7 +33,7 @@ def test_get_task_by_id(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks/2")
     assert response.status_code == 200
 
-    # Requests with a invalid id
+    # Requests with an invalid id
     response1 = test_db_client.get("/tasks/a")
     assert response1.status_code == 422
 
@@ -46,15 +46,28 @@ def test_get_task_by_id(test_db_client, populate_test_db):
     assert response3.status_code == 404
 
     data = response.json()
-    print(data)
+    # print(data)
     assert data["name"] == "test name2"
     assert data["priority"] == "one"
     assert data["id"] == 2
 
 def test_delete_task(test_db_client, populate_test_db):
-    response = test_db_client.delete("/tasks/2")
+    response = test_db_client.get("/tasks")
     assert response.status_code == 200
-    data = response.json()
+    assert len(response.json()) == 2
+
+    delete_response = test_db_client.delete("/tasks/2")
+    assert delete_response.status_code == 200
+    assert delete_response.json() == {"ok": True}
+
+    response2 = test_db_client.get("/tasks")
+    assert response2.status_code == 200
+    data = response2.json()
+    print(data)
+
     assert len(data) == 1
+    assert "test name2" and "one" and 2 not in data
+
+
 
 
