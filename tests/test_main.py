@@ -68,6 +68,15 @@ def test_delete_task(test_db_client, populate_test_db):
     assert len(data) == 1
     assert "test name2" and "one" and 2 not in data
 
+def test_update_task_by_id(test_db_client, populate_test_db):
+    response = test_db_client.put("/tasks/1",
+                                   json ={"name": "different task", "priority": "three"})
 
-
+    assert response.status_code == 200
+    data = response.json()
+    print("data")
+    print(data)
+    assert data["name"] == "different task"
+    assert data["priority"] == "three"
+    assert data["id"] == 1
 

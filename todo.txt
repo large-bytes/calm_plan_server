@@ -14,7 +14,7 @@ ambelic ?
 make routes for
 - get by id (finish error handling on tests)
 - delete (need to test more thoroughly)
-update
+- update
 
 render/supabase -
 remote server/ remote db

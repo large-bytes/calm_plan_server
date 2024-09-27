@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import schemas
@@ -52,3 +53,8 @@ async def delete_task_by_id(id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"ok": True}
 
+@app.put("/tasks/{id}")
+async def update_task_by_id(id: int, db: Session = Depends(get_db)):
+    # task = db.query(Task).filter(Task.id == id).first()
+    # return {"ok": True}
+    return task
