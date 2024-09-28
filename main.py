@@ -53,8 +53,13 @@ async def delete_task_by_id(id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"ok": True}
 
-@app.put("/tasks/{id}")
-async def update_task_by_id(id: int, db: Session = Depends(get_db)):
-    # task = db.query(Task).filter(Task.id == id).first()
-    # return {"ok": True}
+@app.patch("/tasks/{id}")
+async def update_task_by_id(id: int, updated_task: schemas.TaskUpdate, db: Session = Depends(get_db)):
+    task = db.query(Task).filter(Task.id == id).first()
+    task_data = updated_task.model_dump(exclude_unset=True)
+    for k, v in task_data.items():
+        setattr(task, k, v)
+    db.commit()
+    db.refresh(task)
     return task
+
