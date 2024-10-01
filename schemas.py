@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from typing import Optional
+
+from pydantic import BaseModel, Field
 
 class TaskBase(BaseModel):
     name: str
@@ -12,8 +14,8 @@ class Task(TaskBase):
     id: int
 
 class TaskUpdate(BaseModel):
-    name: str | None = None
-    priority: str | None = None
+    name: Optional[str] = Field(default=None)
+    priority: Optional[str] = Field(default=None)
 
     class ConfigDict:
         orm_mode = True
