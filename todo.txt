@@ -9,8 +9,6 @@
 
 
 
-ambelic ?
-
 render/supabase -
 remote server/ remote db
 
