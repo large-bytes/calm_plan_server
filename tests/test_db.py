@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ..database import Base
+from prod_db.database import Base
 # load environment variables
 from dotenv import load_dotenv
 import os

@@ -2,9 +2,9 @@ import pytest
 
 from fastapi.testclient import TestClient
 from . test_db import TestSessionLocal, create_test_db, drop_test_db
-from ..database import get_db
+from prod_db.database import get_db
 from ..main import app
-from ..models import Task
+from all_models.models import Task
 
 
 

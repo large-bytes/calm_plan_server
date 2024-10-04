@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String
 
-from . import database
+from prod_db import database
+
 base = database.Base
 
 # TASK MODEL CLASS - 
