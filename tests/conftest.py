@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 from . test_db import TestSessionLocal, create_test_db, drop_test_db
 from prod_db.database import get_db
 from ..main import app
-from all_models.models import Task
+from all_models.models import Task, User
 
 
 
@@ -26,8 +26,9 @@ def test_db_client():
 @pytest.fixture(scope="function")
 def populate_test_db():
     test_session = TestSessionLocal()
-    tasks = [Task(id=1, name="test name1", priority="five"), Task(id=2, name="test name2", priority="one")]
-
+    tasks = [Task(id=1, name="test name1", priority="five", ),
+             Task(id=2, name="test name2", priority="one")]
+    # users = [User(id=1, username="User1", email="email@email.com", password="12345678")]
     test_session.add_all(tasks)
     test_session.commit()
 
