@@ -1,12 +1,9 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, declarative_base
 
-from src import database
-
-base = database.Base
-
+Base = declarative_base()
 #USER MODEL CLASS -
-class User(base):
+class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -19,7 +16,7 @@ class User(base):
 
 
 # TASK MODEL CLASS - 
-class Task(base):
+class Task(Base):
     __tablename__ = "tasks"
     
     id = Column(Integer, primary_key=True, index=True)

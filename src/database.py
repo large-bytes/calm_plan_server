@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
 # load environment variables
 from dotenv import load_dotenv
 import os
@@ -13,7 +13,6 @@ engine = create_engine(
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base = declarative_base()
 
 print("metadata")
 def get_db():

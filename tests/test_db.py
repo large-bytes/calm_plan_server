@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.database import Base
+from src.models import Base
 # load environment variables
 from dotenv import load_dotenv
 import os
