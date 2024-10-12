@@ -1,9 +1,7 @@
-from logging import Formatter
-
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
-from prod_db import database
+from src import database
 
 base = database.Base
 
