@@ -5,11 +5,11 @@ from pydantic import BaseModel, Field
 class TaskBase(BaseModel):
     name: str
     priority: str
-    
-class TaskCreate(TaskBase):   
+
+class TaskCreate(TaskBase):
     pass
 
-#Task inherits form TaskBase 
+#Task inherits form TaskBase
 class Task(TaskBase):
     id: int
     user_id: int
