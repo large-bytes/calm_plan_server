@@ -7,7 +7,7 @@ from src.database import get_db, engine
 from sqlalchemy.orm import Session
 from src.models import Task
 app = FastAPI()
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 get_db()
 
 origins = [
