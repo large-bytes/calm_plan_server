@@ -5,7 +5,7 @@ from src import schemas
 from src.models import Base
 from src.database import get_db, engine
 from sqlalchemy.orm import Session
-from src.models import Task
+from src.models import Task, User
 app = FastAPI()
 # Base.metadata.create_all(bind=engine)
 get_db()
@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 @app.get("/tasks")
-async def read_all(db: Session = Depends(get_db)):
+async def read_all_tasks(db: Session = Depends(get_db)):
     results = db.query(Task).all()
     return results
 
@@ -62,4 +62,8 @@ async def update_task_by_id(id: int, updated_task: schemas.TaskUpdate, db: Sessi
     db.commit()
     db.refresh(task)
     return task
+
+@app.get("/users")
+async def read_all_users(db: Session = Depends(get_db)):
+    assert db.query(User).all()
 
