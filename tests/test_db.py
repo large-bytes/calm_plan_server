@@ -2,12 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from src.models import Base
 # load environment variables
-from dotenv import load_dotenv
+import dotenv
 import os
-load_dotenv()
+dotenv.load_dotenv()
 
-TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
-
+# TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
+TEST_DATABASE_URL = 'postgresql://tomfyfe@5432/calm_plan_test/'
 engine = create_engine(
     TEST_DATABASE_URL
 )
