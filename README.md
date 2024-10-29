@@ -1,4 +1,4 @@
-# CalmPlan Server - Built with Python 3.12
+# CalmPlan Server - Built with Python 3.13
 
 ## Setting up the project
 1. We are using Pipenv to manage our dependencies and environments: https://pipenv.pypa.io/en/latest/installation.html
