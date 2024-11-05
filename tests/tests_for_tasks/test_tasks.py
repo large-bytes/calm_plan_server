@@ -6,7 +6,7 @@ def test_returns_client_gives_200(test_db_client, populate_test_db):
 # def test_returns_empty_list_for_response(test_db_client):
 #     response = test_db_client.get("/tasks")
 #     assert response.json() == []
-#
+
 #
 # def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
 #     response = test_db_client.get("/tasks")

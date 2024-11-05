@@ -1,0 +1,6 @@
+- UPDATE README - changed to VENV from pipenv
+
+) create users and authentication
+
+later -
+filter by priority
