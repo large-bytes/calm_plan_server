@@ -1,19 +1,19 @@
-# CalmPlan Server - Built with Python 3.13
+# CalmPlan Server - Built with Python 3.12.5
 
 ## Setting up the project
-1. We are using Pipenv to manage our dependencies and environments: https://pipenv.pypa.io/en/latest/installation.html
-   (if you don't want to use pipenv, set up you virtual env accordingly and skip to step 6)
-2. Go to project directory
+1. We are using Pip and Venv to manage our dependencies and environments.
+   
+2. Clone this repo
 
-3. Get pipenv: pip install pipenv
+3. Enter the directory
 
-4. Create new Pip file and virtual environment for the project: pipenv install
+4. Set up the virtual environment - python -m venv calm_plan_server
 
-5. Activate virtual environment: pipenv shell
+5. Activate virtual environment - source calm_plan_server/bin/activate 
 
-6. In your project directory -
+6. Install dependencies in your virtual environment:
 
-   Run `pip install fastapi SQLAlchemy psycopg2 pytest`
+   $(venv); pip install -r requirements.txt
 
 7. cd into the directory, create a `.env` file with the following information:
 
