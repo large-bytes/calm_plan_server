@@ -44,7 +44,6 @@ def test_get_task_by_id(test_db_client, populate_test_db):
     assert response3.status_code == 404
 
     data = response.json()
-    # print(data)
     assert data["name"] == "test name2"
     assert data["priority"] == "one"
     assert data["id"] == 2

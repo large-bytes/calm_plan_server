@@ -1,7 +1,4 @@
-from http.client import HTTPException
-from sys import prefix
-
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from . src import schemas
@@ -51,3 +48,4 @@ async def update_task_by_id(id: int, updated_task: schemas.TaskUpdate, db: Sessi
     db.commit()
     db.refresh(task)
     return task
+
