@@ -1,5 +1,5 @@
 
-def test_returns_client_gives_200(test_db_client, populate_test_db):
+def test_tasks_returns_client_gives_200(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks")
     assert response.status_code == 200
 
@@ -13,7 +13,6 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
     print(response.json())
     assert response.json() == [{'user_id': None, 'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
                                {'user_id': None, 'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
-
 
 
 def test_post_adds_data_to_test_db(test_db_client):
