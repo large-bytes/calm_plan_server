@@ -32,5 +32,5 @@ app.include_router(tasks_router.router)
 
 @app.get("/users")
 async def read_all_users(db: Session = Depends(get_db)):
-    assert db.query(User).all()
+    return db.query(User).all()
 
