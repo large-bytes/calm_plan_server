@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from . src import schemas
-from . src.database import get_db
-from . src.models import Task
+from .. src import schemas
+from .. src.database import get_db
+from .. src.models import Task
 
 router = APIRouter(
     prefix = '/tasks',

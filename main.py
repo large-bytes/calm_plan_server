@@ -1,12 +1,10 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from . tasks_router import router
-from . src import schemas
-from . src.models import Base
-from . src.database import get_db, engine
+from . routers import tasks_router
+from . src.database import get_db
 from sqlalchemy.orm import Session
-from . src.models import Task, User
+from . src.models import User
 
 app = FastAPI()
 
@@ -27,7 +25,7 @@ app.add_middleware(
 )
 
 #tasks router
-app.include_router(router)
+app.include_router(tasks_router.router)
 
 
 @app.get("/users")
