@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from . routers import tasks_router
+from routers import tasks_router
 from . src.database import get_db
 from sqlalchemy.orm import Session
 from . src.models import User
