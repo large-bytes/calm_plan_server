@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import tasks_router
+from . tasks_router import router
 from . src import schemas
 from . src.models import Base
 from . src.database import get_db, engine
@@ -27,7 +27,7 @@ app.add_middleware(
 )
 
 #tasks router
-app.include_router(tasks_router.router)
+app.include_router(router)
 
 
 @app.get("/users")
