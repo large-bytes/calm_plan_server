@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import tasks_router
+from routers import tasks_router, users_router
 from src.database import get_db
 from sqlalchemy.orm import Session
 from src.models import User
@@ -27,8 +27,7 @@ app.add_middleware(
 #tasks router
 app.include_router(tasks_router.router)
 
+#users router
+app.include_router(users_router.router)
 
-@app.get("/users")
-async def read_all_users(db: Session = Depends(get_db)):
-    return db.query(User).all()
 
