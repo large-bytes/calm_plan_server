@@ -45,3 +45,18 @@ def test_get_user_by_id(test_db_client, populate_test_db):
     assert data["password"] == "12345678"
     assert data["is_active"] == True
 
+def test_delete_task(test_db_client, populate_test_db):
+    response = test_db_client.get("/users")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+
+    delete_response = test_db_client.delete("/users/1")
+    assert delete_response.status_code == 200
+    assert delete_response.json() == {"ok": True}
+
+    response2 = test_db_client.get("/users")
+    assert response2.status_code == 200
+    data = response2.json()
+    print(data)
+
+    assert len(data) == 0
