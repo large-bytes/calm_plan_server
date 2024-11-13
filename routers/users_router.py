@@ -21,3 +21,10 @@ async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(new_user)
         return new_user
+
+@router.get("/{user_id}")
+async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Task not found")
+    return user
