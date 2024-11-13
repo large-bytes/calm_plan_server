@@ -11,8 +11,8 @@ def test_returns_empty_list_for_response(test_db_client):
 def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks")
     print(response.json())
-    assert response.json() == [{'user_id': None, 'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
-                               {'user_id': None, 'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
+    assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
+                               {'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
 
 
 def test_post_adds_data_to_test_db(test_db_client):
