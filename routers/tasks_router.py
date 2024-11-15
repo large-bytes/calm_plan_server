@@ -23,9 +23,9 @@ async def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
     db.refresh(new_task)
     return new_task
 
-@router.get("/{id}")
-async def get_task_by_id(id: int, db: Session = Depends(get_db)):
-    task = db.query(Task).filter(Task.id == id).first()
+@router.get("/{task_id}")
+async def get_task_by_id(task_id: int, db: Session = Depends(get_db)):
+    task = db.query(Task).filter(Task.id == task_id).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
@@ -39,9 +39,9 @@ async def delete_task_by_id(id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"ok": True}
 
-@router.patch("/{id}")
-async def update_task_by_id(id: int, updated_task: schemas.TaskUpdate, db: Session = Depends(get_db)):
-    task = db.query(Task).filter(Task.id == id).first()
+@router.patch("/{task_id}")
+async def update_task_by_id(task_id: int, updated_task: schemas.TaskUpdate, db: Session = Depends(get_db)):
+    task = db.query(Task).filter(Task.id == task_id).first()
     task_data = updated_task.model_dump(exclude_unset=True)
     for k, v in task_data.items():
         setattr(task, k, v)
