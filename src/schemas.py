@@ -34,5 +34,10 @@ class User(UserBase):
     is_active: bool
     tasks: list[Task] = []
 
+class UserUpdate(BaseModel):
+    username: str = Field(default=None)
+    email: str = Field(default=None)
+    password: str = Field(default=None)
+
     class ConfigDict:
         orm_mode = True

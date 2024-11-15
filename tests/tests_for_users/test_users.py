@@ -60,3 +60,15 @@ def test_delete_task(test_db_client, populate_test_db):
     print(data)
 
     assert len(data) == 0
+
+def test_update_user_by_id(test_db_client, populate_test_db):
+    response = test_db_client.patch("/users/1",
+                                   json ={"username": "USER1", "password": "66666666", "email": "new@gmail.com"})
+
+    assert response.status_code == 200
+    data = response.json()
+    print(data)
+    assert data["username"] == "USER1"
+    assert data["password"] == "66666666"
+    assert data["id"] == 1
+    assert data["email"] == "new@gmail.com"
