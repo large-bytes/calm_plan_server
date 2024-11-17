@@ -1,4 +1,8 @@
-create authentication
+create authentication-
+https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/#about-jwt
+
+
+
 
 later -
 filter by priority
