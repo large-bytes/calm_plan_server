@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -5,14 +7,19 @@ from src import schemas
 from src.database import get_db
 from src.models import User
 
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 router = APIRouter(
     prefix = '/users',
     tags = ['crud_users']
 )
 
 @router.get("")
-async def read_all_users(db: Session = Depends(get_db)):
-    return db.query(User).all()
+async def read_all_users(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
+    all_users = db.query(User).all()
+    return {"token": token, "all_users": all_users}
 
 @router.post("")
 async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):

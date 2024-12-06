@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
 from routers import tasks_router, users_router
-from src.database import get_db
 
 app = FastAPI()
-get_db()
 origins = [
     "http://localhost:8000",
     "http://localhost:5173",
