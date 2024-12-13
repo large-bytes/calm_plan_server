@@ -17,7 +17,7 @@ async def read_all_tasks(db: Session = Depends(get_db)):
 
 @router.post("")
 async def add_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
-    new_task = Task(name=task.name, priority=task.priority)
+    new_task = Task(name=task.name, priority=task.priority, user_id=task.user_id)
     db.add(new_task)
     db.commit()
     db.refresh(new_task)

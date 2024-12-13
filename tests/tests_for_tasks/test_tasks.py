@@ -17,12 +17,13 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
 
 def test_post_adds_data_to_test_db(test_db_client):
     response = test_db_client.post("/tasks/",
-                                   json ={"name": "test_task", "priority": "five"})
-    assert response.status_code == 200
+                                   json ={"name": "test_task", "priority": "five", "user_id": 1})
+    assert response.status_code  == 200
     data = response.json()
     assert data["name"] == "test_task"
     assert data["priority"] == "five"
     assert data["id"] == 1
+    assert data["user_id"] == 1
 
 
 def test_get_task_by_id(test_db_client, populate_test_db):

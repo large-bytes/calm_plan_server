@@ -7,12 +7,13 @@ class TaskBase(BaseModel):
     priority: str
 
 class TaskCreate(TaskBase):
-    pass
+    user_id: int
+
+
 
 #Task inherits form TaskBase
 class Task(TaskBase):
     id: int
-    user_id: int
 
 class TaskUpdate(BaseModel):
     name: Optional[str] = Field(default=None)
