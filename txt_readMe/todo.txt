@@ -1,5 +1,7 @@
-create authentication
-https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/#about-jwt
+
+create routing for tasks
+
+create users and authentication
 
 later -
 filter by priority
