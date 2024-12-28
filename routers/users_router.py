@@ -17,6 +17,14 @@ router = APIRouter(
     tags = ['crud_users']
 )
 
+def fake_decode_token(token):
+    return User(
+    # todo add fake details for function when for learning
+    )
+
+# async def get_current_user
+# todo add code from docs
+
 @router.get("/me")
 async def get_authenticated_user(token: Annotated[str, Depends(oauth2_scheme)]):
     return {"token":token}
