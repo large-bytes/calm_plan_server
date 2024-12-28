@@ -1,3 +1,4 @@
+from typing import Annotated
 
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -7,12 +8,21 @@ from src import schemas
 from src.database import get_db
 from src.models import User
 
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 router = APIRouter(
     prefix = '/users',
     tags = ['crud_users']
 )
 
+@router.get("/me")
+async def get_authenticated_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    return {"token":token}
+
 @router.get("")
+
 async def read_all_users(db: Session = Depends(get_db)):
     all_users = db.query(User).all()
     return  all_users

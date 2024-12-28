@@ -1,7 +1,6 @@
 
-create routing for tasks
-
 create users and authentication
 
 later -
 filter by priority
+

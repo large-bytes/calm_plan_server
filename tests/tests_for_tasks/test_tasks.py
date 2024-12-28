@@ -24,7 +24,7 @@ def test_post_adds_data_to_test_db(test_db_client):
     assert data["name"] == "test_task"
     assert data["priority"] == "five"
     assert data["id"] == 1
-    # assert data["user_id"] == 1
+    assert data["user_id"] == 1
 
 
 def test_get_task_by_id(test_db_client, populate_test_db):

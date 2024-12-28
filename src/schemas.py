@@ -10,7 +10,6 @@ class TaskCreate(TaskBase):
     user_id: int
 
 
-
 #Task inherits form TaskBase
 class Task(TaskBase):
     id: int
@@ -22,7 +21,7 @@ class TaskUpdate(BaseModel):
     class ConfigDict:
         orm_mode = True
 
-#
+
 class UserBase(BaseModel):
     username: str
     email: str
