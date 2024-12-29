@@ -19,18 +19,18 @@ router = APIRouter(
 
 def fake_decode_token(token):
     return User(
-    # todo add fake details for function when for learning
+    username=token + "fakecoded", email="tom@gmail.com"
     )
 
-# async def get_current_user
-# todo add code from docs
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    user = fake_decode_token(token)
+    return user
 
 @router.get("/me")
-async def get_authenticated_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    return {"token":token}
+async def get_authenticated_user(current_user: Annotated[User, Depends(get_current_user)]):
+    return current_user
 
 @router.get("")
-
 async def read_all_users(db: Session = Depends(get_db)):
     all_users = db.query(User).all()
     return  all_users
