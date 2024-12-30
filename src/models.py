@@ -19,6 +19,8 @@ class User(Base):
         return f"id:{self.id}, username: {self.username}"
 
 
+
+
 # TASK MODEL CLASS -
 class Task(Base):
     __tablename__ = "tasks"

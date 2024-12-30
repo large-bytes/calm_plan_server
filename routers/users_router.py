@@ -1,34 +1,22 @@
 from typing import Annotated
 
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from src import schemas
 from src.database import get_db
 from src.models import User
 
-from fastapi.security import OAuth2PasswordBearer
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 router = APIRouter(
     prefix = '/users',
     tags = ['crud_users']
 )
 
-def fake_decode_token(token):
-    return User(
-    username=token + "fakecoded", email="tom@gmail.com"
-    )
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    user = fake_decode_token(token)
-    return user
 
-@router.get("/me")
-async def get_authenticated_user(current_user: Annotated[User, Depends(get_current_user)]):
-    return current_user
 
 @router.get("")
 async def read_all_users(db: Session = Depends(get_db)):

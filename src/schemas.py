@@ -21,7 +21,6 @@ class TaskUpdate(BaseModel):
     class ConfigDict:
         orm_mode = True
 
-
 class UserBase(BaseModel):
     username: str
     email: str
@@ -38,6 +37,9 @@ class UserUpdate(BaseModel):
     username: str = Field(default=None)
     email: str = Field(default=None)
     password: str = Field(default=None)
+
+class UserInDB(User):
+    hashed_password: str
 
     class ConfigDict:
         orm_mode = True

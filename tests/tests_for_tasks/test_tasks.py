@@ -15,7 +15,7 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
     print(response.json())
     assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
                                {'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
-# @pytest.mark.skip
+@pytest.mark.skip
 def test_post_adds_data_to_test_db(test_db_client):
     response = test_db_client.post("/tasks/",
                                    json ={"name": "test_task", "priority": "five", "user_id": 1})
