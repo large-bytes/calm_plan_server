@@ -39,7 +39,7 @@ class UserUpdate(BaseModel):
     password: str = Field(default=None)
 
 class UserInDB(User):
-    hashed_password: str
+    password: str
 
     class ConfigDict:
         orm_mode = True
