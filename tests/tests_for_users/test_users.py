@@ -24,8 +24,6 @@ def test_post_adds_data_to_test_db(test_db_client):
 def test_get_user_by_id(test_db_client, populate_test_db):
     # Requests with a valid id
     response = test_db_client.get("/users/1")
-    user_dict = response.json().__dict__
-    print(user_dict)
     assert response.status_code == 200
 
     # Requests with an invalid id
@@ -34,8 +32,8 @@ def test_get_user_by_id(test_db_client, populate_test_db):
 
     # # Request with None as ID
     response2 = test_db_client.get("/users/None")
-    assert response2.status_code == 42
-    #
+    assert response2.status_code == 422
+
     # Request with non-existing yet valid task ID
     response3 = test_db_client.get("/users/9999")
     assert response3.status_code == 404
