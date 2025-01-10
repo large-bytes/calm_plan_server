@@ -20,7 +20,7 @@ async def read_all_users(db: Session = Depends(get_db)):
 
 @router.post("")
 async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-        new_user = User(username=user.username, email=user.email, password=user.password, is_active=True )
+        new_user = User(username=user.username, email=user.email, hashed_password=user.hashed_password, disabled=False )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
