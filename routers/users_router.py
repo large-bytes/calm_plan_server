@@ -42,12 +42,12 @@ async def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"ok": True}
 
-@router.patch("/{user_id}")
-async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
-    user_data = updated_user.model_dump(exclude_unset=True)
-    for k, v in user_data.items():
-        setattr(user, k, v)
-    db.commit()
-    db.refresh(user)
-    return user
+# @router.patch("/{user_id}")
+# async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db)):
+#     user = db.query(User).filter(User.id == user_id).first()
+#     user_data = updated_user.model_dump(exclude_unset=True)
+#     for k, v in user_data.items():
+#         setattr(user, k, v)
+#     db.commit()
+#     db.refresh(user)
+#     return user

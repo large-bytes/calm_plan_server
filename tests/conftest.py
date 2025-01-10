@@ -25,7 +25,7 @@ def test_db_client():
 @pytest.fixture(scope="function")
 def populate_test_db():
     test_session = TestSessionLocal()
-    users = [User(id=1, username="User1", email="email@email.com", password="12345678")]
+    users = [User(id=1, username="User1", email="email@email.com", hashed_password="12345678")]
     test_session.add_all(users)
     test_session.commit()
 
