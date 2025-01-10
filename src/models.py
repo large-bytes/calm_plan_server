@@ -8,10 +8,10 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
-    username = Column(String(10), nullable=False)
+    username = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
-    password = Column(String(8), nullable=False)
-    is_active = Column(Boolean, default=True)
+    hashed_password = Column(String(225))
+    disabled = Column(Boolean, default=False)
 
     tasks = relationship("Task", back_populates="user")
 
