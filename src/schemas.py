@@ -1,6 +1,6 @@
-from typing import Optional
-
+from typing import Optional, List
 from pydantic import BaseModel, Field
+
 
 class TaskBase(BaseModel):
     name: str
@@ -8,7 +8,6 @@ class TaskBase(BaseModel):
 
 class TaskCreate(TaskBase):
     user_id: int
-
 
 
 #Task inherits form TaskBase
@@ -20,9 +19,8 @@ class TaskUpdate(BaseModel):
     priority: Optional[str] = Field(default=None)
 
     class ConfigDict:
-        orm_mode = True
+        from_attributes = True
 
-#
 class UserBase(BaseModel):
     username: str
     email: str
@@ -32,13 +30,15 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    is_active: bool
-    tasks: list[Task] = []
-
-class UserUpdate(BaseModel):
-    username: str = Field(default=None)
-    email: str = Field(default=None)
-    password: str = Field(default=None)
+    disabled: bool
+    tasks: List[Task] = []
 
     class ConfigDict:
-        orm_mode = True
+        from_attributes = True
+
+
+class UserInDB(User):
+    hashed_password: str
+
+    class ConfigDict:
+        from_attributes = True
