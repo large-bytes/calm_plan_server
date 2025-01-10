@@ -16,7 +16,7 @@ async def read_all_users(db: Session = Depends(get_db)):
 
 @router.post("")
 async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-        new_user = User(username=user.username, email=user.email, password=user.password, is_active=True )
+        new_user = User(username=user.username, email=user.email, password=user.password, disabled=False )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
@@ -38,12 +38,12 @@ async def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"ok": True}
 
-@router.patch("/{user_id}")
-async def update_task_by_id(user_id: int, updated_user: schemas.UserBase, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
-    user_data = updated_user.model_dump(exclude_unset=True)
-    for k, v in user_data.items():
-        setattr(user, k, v)
-    db.commit()
-    db.refresh(user)
-    return user
+# @router.patch("/{user_id}")
+# async def update_task_by_id(user_id: int, updated_user: schemas.UserBase, db: Session = Depends(get_db)):
+#     user = db.query(User).filter(User.id == user_id).first()
+#     user_data = updated_user.model_dump(exclude_unset=True)
+#     for k, v in user_data.items():
+#         setattr(user, k, v)
+#     db.commit()
+#     db.refresh(user)
+#     return user
