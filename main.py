@@ -47,7 +47,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 def fake_hashed_password(password: str):
     return "fakehashed" + password
 
-
 def get_user(username:str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
@@ -80,7 +79,6 @@ async def get_current_active_user(
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db) ):
     user = db.query(User).filter(User.username == form_data.username).first()
     user_dict = {key: value for key, value in user.__dict__.items() if not key.startswith("_")}
-    print("hello")
     if not user_dict:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
     user = UserInDB(user_dict)
