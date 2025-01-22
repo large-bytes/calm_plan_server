@@ -31,7 +31,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     disabled: bool
-    tasks: List[Task] = []
+    tasks: List[dict] = []
 
     class ConfigDict:
         from_attributes = True

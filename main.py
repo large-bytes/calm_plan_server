@@ -19,23 +19,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#tasks router
-app.include_router(tasks_router.router)
 
-#users router
+app.include_router(tasks_router.router)
 app.include_router(users_router.router)
 
 # #auth router
-# app.include_router(auth_router.router)
 
 from http.client import HTTPException
 
-from sqlalchemy.sql.functions import current_user
 from src.database import get_db
 
-from src.schemas import User, UserInDB
-# from src.models import User
-
+from src.schemas import UserInDB
+from src.models import User
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, status
 from typing import Annotated
@@ -55,8 +50,10 @@ def fake_hashed_password(password: str):
 
 def get_user(username:str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
+    if user is None:
+        raise ValueError(f"User with username '{username}' not found'")
     user_dict = {key: value for key, value in user.__dict__.items() if not key.startswith("_")}
-    return UserInDB(user_dict)
+    return UserInDB.model_validate(user_dict)
 
 def fake_decode_token(token, db: Session = Depends(get_db)):
     user = get_user(token, db)
@@ -99,4 +96,16 @@ async def read_users_me(
         ):
     return current_user
 
+
+
+if __name__ == "__main__":
+	db_session = next(get_db())  # Create database session
+
+	username = "test1"  # Replace with a real username
+
+	try:
+		user_data = get_user(username, db_session)
+		print("Returned User Object:", user_data)
+	except Exception as e:
+		print(f"Error: {e}")
 
