@@ -21,6 +21,14 @@ class TaskUpdate(BaseModel):
     class ConfigDict:
         from_attributes = True
 
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
 class UserBase(BaseModel):
     username: str
     email: str

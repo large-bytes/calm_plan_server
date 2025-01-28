@@ -1,7 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+from dotenv import load_dotenv
+import os
 
+from passlib.context import CryptContext
+
+load_dotenv()
 from routers import auth_router, tasks_router, users_router
 
 app = FastAPI()
@@ -33,16 +38,24 @@ from src.models import User
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, status
 from typing import Annotated
-
 from sqlalchemy.orm import Session
+
+# new jwt imports
 
 # router = APIRouter(
 #     prefix = '/auth',
 #     tags = ['authentication']
 # )
 
+secret_key = os.getenv("SECRET_KEY")
+algorithm = os.getenv("ALGORITHM")
+access_token_expire_minutes= os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 db = get_db()
+
+# todo from here downwards
 def fake_hashed_password(password: str):
     return "fakehashed" + password
 
@@ -101,7 +114,7 @@ async def read_users_me(
 
 
 if __name__ == "__main__":
-	db_session = next(get_db())  # Create database session
+    db_session = next(get_db())  # Create database session
 
 	username = "test1"  # Replace with a real username
 
