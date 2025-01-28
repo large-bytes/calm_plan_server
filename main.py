@@ -42,8 +42,7 @@ from sqlalchemy.orm import Session
 # )
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-db = get_db
-
+db = get_db()
 def fake_hashed_password(password: str):
     return "fakehashed" + password
 
@@ -58,8 +57,8 @@ def fake_decode_token(token, db: Session = Depends(get_db)):
     user = get_user(token, db)
     return user
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    user = fake_decode_token(token)
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
+    user = fake_decode_token(token, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
