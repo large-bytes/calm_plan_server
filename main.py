@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -25,7 +25,6 @@ app.include_router(users_router.router)
 
 # #auth router
 
-from http.client import HTTPException
 
 from src.database import get_db
 
@@ -43,11 +42,12 @@ from sqlalchemy.orm import Session
 # )
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+db = get_db
 
 def fake_hashed_password(password: str):
     return "fakehashed" + password
 
-def get_user(username:str, db: Session = Depends(get_db)):
+def get_user(username:str, db: Session):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
         raise ValueError(f"User with username '{username}' not found'")
@@ -71,19 +71,24 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 async def get_current_active_user(
         current_user: Annotated[User, Depends(get_current_user)]
 ):
-    if not current_user.is_active:
+    if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
 @app.post("/token")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db) ):
-    user = db.query(User).filter(User.username == form_data.username).first()
-    user_dict = {key: value for key, value in user.__dict__.items() if not key.startswith("_")}
-    if not user_dict:
+    user_query = db.query(User).filter(User.username == form_data.username).first()
+    print(user_query.hashed_password)
+    if not user_query:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
-    user = UserInDB(user_dict)
+    user = get_user(user_query.username, db)
+
+
     hashed_password =  fake_hashed_password(form_data.password)
-    if not hashed_password == user.password:
+    if not hashed_password == user.hashed_password:
+        print("hashed_password == user.hashed_password")
+        print(hashed_password)
+        print(user.hashed_password)
         raise HTTPException(status_code=400, detail="Incorrect username or password")
 
     return {"access_token": user.username, "token_type": "bearer"}
