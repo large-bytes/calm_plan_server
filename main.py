@@ -55,10 +55,13 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 db = get_db()
 
-# todo from here downwards
-def fake_hashed_password(password: str):
-    return "fakehashed" + password
 
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)  
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+    
 def get_user(username:str, db: Session):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
@@ -66,10 +69,16 @@ def get_user(username:str, db: Session):
     user_dict = {key: value for key, value in user.__dict__.items() if not key.startswith("_")}
     return UserInDB.model_validate(user_dict)
 
-def fake_decode_token(token, db: Session = Depends(get_db)):
-    user = get_user(token, db)
+def authenticate_user(username:str, password:str,  db: Session = Depends(get_db)):
+    user = get_user(db, username)
+    if not user:
+        return False
+    if not verify_password(password, user.hashed_password):
+        return False
     return user
 
+
+# todo understand from this point down
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     user = fake_decode_token(token, db)
     if not user:
@@ -116,11 +125,11 @@ async def read_users_me(
 if __name__ == "__main__":
     db_session = next(get_db())  # Create database session
 
-	username = "test1"  # Replace with a real username
+    username = "test1"  # Replace with a real username
 
-	try:
-		user_data = get_user(username, db_session)
-		print("Returned User Object:", user_data)
-	except Exception as e:
-		print(f"Error: {e}")
+    try:
+        user_data = get_user(username, db_session)
+        print("Returned User Object:", user_data)
+    except Exception as e:
+            print(f"Error: {e}")
 
