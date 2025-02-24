@@ -1,3 +1,16 @@
+import jwt
+from jose.constants import ALGORITHMS
+
+from src.database import get_db
+
+from src.schemas import UserInDB
+from src.models import User
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import APIRouter, Depends, status
+from typing import Annotated
+from sqlalchemy.orm import Session
+from datetime import datetime, timedelta, timezone
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -30,16 +43,6 @@ app.include_router(users_router.router)
 
 # #auth router
 
-
-from src.database import get_db
-
-from src.schemas import UserInDB
-from src.models import User
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi import APIRouter, Depends, status
-from typing import Annotated
-from sqlalchemy.orm import Session
-
 # new jwt imports
 
 # router = APIRouter(
@@ -47,8 +50,8 @@ from sqlalchemy.orm import Session
 #     tags = ['authentication']
 # )
 
-secret_key = os.getenv("SECRET_KEY")
-algorithm = os.getenv("ALGORITHM")
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 access_token_expire_minutes= os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -79,6 +82,17 @@ def authenticate_user(username:str, password:str,  db: Session = Depends(get_db)
 
 
 # todo understand from this point down
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes = 15)
+    to_encode.update({"exp:expire"})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm = ALGORITHM)
+    return encoded_jwt
+
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     user = fake_decode_token(token, db)
     if not user:
