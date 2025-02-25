@@ -1,9 +1,10 @@
 import jwt
 from jose.constants import ALGORITHMS
+from jwt import InvalidTokenError
 
 from src.database import get_db
 
-from src.schemas import UserInDB
+from src.schemas import UserInDB, TokenData
 from src.models import User
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, status
@@ -81,7 +82,6 @@ def authenticate_user(username:str, password:str,  db: Session = Depends(get_db)
     return user
 
 
-# todo understand from this point down
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -89,19 +89,30 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
         expire = datetime.now(timezone.utc) + expires_delta
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes = 15)
-    to_encode.update({"exp:expire"})
+    to_encode.update({"exp":expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm = ALGORITHM)
     return encoded_jwt
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
-    user = fake_decode_token(token, db)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="invalid authentication credentials",
-            headers={"WWW-Authenticate": "Bearer"}
-        )
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"}
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        token_data = TokenData(username=username)
+    except InvalidTokenError
+        raise credentials_exception
+    user = get_user(username=token_data.username  , db=db)
+    if user is None:
+        raise credentials_exception
     return user
+
+# todo understand from this point down
 
 async def get_current_active_user(
         current_user: Annotated[User, Depends(get_current_user)]
