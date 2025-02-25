@@ -4,7 +4,7 @@ from jwt import InvalidTokenError
 
 from src.database import get_db
 
-from src.schemas import UserInDB, TokenData
+from src.schemas import UserInDB, TokenData, Token
 from src.models import User
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, status
@@ -66,7 +66,7 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(password):
     return pwd_context.hash(password)
     
-def get_user(username:str, db: Session):
+def get_user(username:str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
         raise ValueError(f"User with username '{username}' not found'")
@@ -105,14 +105,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
-    except InvalidTokenError
+    except InvalidTokenError:
         raise credentials_exception
     user = get_user(username=token_data.username  , db=db)
     if user is None:
         raise credentials_exception
     return user
 
-# todo understand from this point down
 
 async def get_current_active_user(
         current_user: Annotated[User, Depends(get_current_user)]
@@ -121,23 +120,11 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
+# todo understand from this point down
+
 @app.post("/token")
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db) ):
-    user_query = db.query(User).filter(User.username == form_data.username).first()
-    print(user_query.hashed_password)
-    if not user_query:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-    user = get_user(user_query.username, db)
-
-
-    hashed_password =  fake_hashed_password(form_data.password)
-    if not hashed_password == user.hashed_password:
-        print("hashed_password == user.hashed_password")
-        print(hashed_password)
-        print(user.hashed_password)
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-
-    return {"access_token": user.username, "token_type": "bearer"}
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db) ) -> Token:
+    user = authenticate_user(db = db, )
 
 @app.get("/me")
 async def read_users_me(
