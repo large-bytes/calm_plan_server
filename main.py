@@ -120,11 +120,10 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
-# todo understand from this point down
-
+#todo understand from this point down
 @app.post("/token")
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db) ) -> Token:
-    user = authenticate_user(db = db, )
+    user = authenticate_user(db = db,)
 
 @app.get("/me")
 async def read_users_me(
@@ -135,9 +134,9 @@ async def read_users_me(
 
 
 if __name__ == "__main__":
-    db_session = next(get_db())  # Create database session
+    db_session = next(get_db())
 
-    username = "test1"  # Replace with a real username
+    username = "test1"
 
     try:
         user_data = get_user(username, db_session)
