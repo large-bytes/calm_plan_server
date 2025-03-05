@@ -60,32 +60,41 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)  
+    return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
     return pwd_context.hash(password)
     
 def get_user(username:str, db: Session):
-    print("db in get user", type(db))
     user = db.query(User).filter(User.username == username).first()
-
+    print("get user")
     if user is None:
         raise ValueError(f"User with username '{username}' not found'")
     user_dict = {key: value for key, value in user.__dict__.items() if not key.startswith("_")}
+    print("user dict type =", user_dict)
     return UserInDB.model_validate(user_dict)
 
 def authenticate_user(username:str, password:str,  db: Session):
-    user = get_user(db, username)
+    user = get_user(username, db)
+    print("Authenticate user hashed", user.hashed_password)
+    print("Authenticate user not hashed", password)
+    print(user == True)
+    # => False
     if not user:
+        print("verify not user")
         return False
     if not verify_password(password, user.hashed_password):
+        print("verify authenticate user")
         return False
+
+    print("auth return")
     return user
 
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
+    print("timedelta create access token")
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
@@ -108,7 +117,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
         token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
-    user = get_user(db=db, username=token_data.username)
+    user = get_user(username=token_data.username, db=db)
+    print("get_current_user")
     if user is None:
         raise credentials_exception
     return user
@@ -124,16 +134,22 @@ async def get_current_active_user(
 #todo understand from this point down
 @app.post("/token")
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db) ) -> Token:
-    user = authenticate_user(form_data.username, form_data.password, db = db)
+    print("log in for access token1", form_data.password)
+    user = authenticate_user(form_data.username, form_data.password, db)
+    print(user)
+    print("log in for access token2")
+
     if not user:
+
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers = {"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes = ACCESS_TOKEN_EXPIRE_MINUTES)
+    print("log in for access token3")
+    access_token_expires = timedelta(minutes = int(ACCESS_TOKEN_EXPIRE_MINUTES))
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta= access_token_expires
+        data={"sub": form_data.username}, expires_delta= access_token_expires
     )
     return Token(access_token=access_token, token_type="bearer")
 
