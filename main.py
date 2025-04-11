@@ -60,6 +60,11 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 def verify_password(plain_password, hashed_password):
+    print("plain pw", plain_password)
+    print("hashed pw", hashed_password)
+    pwd = pwd_context.verify(plain_password, hashed_password)
+    print("verify pw2", pwd)
+
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
@@ -76,16 +81,11 @@ def get_user(username:str, db: Session):
 
 def authenticate_user(username:str, password:str,  db: Session):
     user = get_user(username, db)
-    print("Authenticate user hashed", user.hashed_password)
-    print("Authenticate user not hashed", password)
-    print(user == True)
-    # => False
     if not user:
-        print("verify not user")
-        return False
+            return False
     if not verify_password(password, user.hashed_password):
-        print("verify authenticate user")
-        return False
+            print("verify not user")
+            return False
 
     print("auth return")
     return user
@@ -159,12 +159,12 @@ async def read_users_me(
         ):
     return current_user
 
-@app.get("/me/items/")
-async def read_own_items(
-    current_user: Annotated[User, Depends(get_current_active_user)],
-):
-    return [{"item_id": "Foo", "owner": current_user.username}]
-
+# @app.get("/me/items/")
+# async def read_own_items(
+#     current_user: Annotated[User, Depends(get_current_active_user)],
+# ):
+#     return [{"item_id": "Foo", "owner": current_user.username}]
+#
 
 if __name__ == "__main__":
     db_session = next(get_db())
