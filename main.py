@@ -43,6 +43,8 @@ app.include_router(tasks_router.router)
 app.include_router(users_router.router)
 
 # #auth router
+app.include_router(auth_router.router)
+
 
 # new jwt imports
 
