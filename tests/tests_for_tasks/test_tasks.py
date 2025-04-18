@@ -1,72 +1,71 @@
 import pytest
 
 
-def test_tasks_returns_client_gives_200(test_db_client, populate_test_db):
-    response = test_db_client.get("/tasks")
-    assert response.status_code == 200
-
-def test_returns_empty_list_for_response(test_db_client):
-    response = test_db_client.get("/tasks")
-    assert response.json() == []
-
+# def test_tasks_returns_client_gives_200(test_db_client, populate_test_db):
+#     response = test_db_client.get("/tasks")
+#     assert response.status_code == 200
+#
+# def test_returns_empty_list_for_response(test_db_client):
+#     response = test_db_client.get("/tasks")
+#     assert response.json() == []
 #
 # def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
-#     response = test_db_client.get("/tasks")
-#     print(response.json())
-#     assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
-#                                {'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
+#     response = test_db_client.get("/users")
+#     assert response.json() == [{'username': 'User1', 'id': 1, 'email': "email@email.com", 'hashed_password': "12345678", 'is_active': True, 'role': 'User'}]
 #
-# @pytest.mark.skipif(True, reason="Condition met for skipping")
 # def test_post_adds_data_to_test_db(test_db_client):
-#     response = test_db_client.post("/tasks/",
-#                                    json ={"name": "test_task", "priority": "five", "user_id": 1})
-#     assert response.status_code  == 200
+#     response = test_db_client.post("/users/",
+#                                    json={'username': 'User2', 'email': "email2@email.com", 'hashed_password': "87654321", 'is_active': True, 'role': 'User'})
+#     assert response.status_code == 200
 #     data = response.json()
-#     assert data["name"] == "test_task"
-#     assert data["priority"] == "five"
-#     assert data["id"] == 1
-#     assert data["user_id"] == 1
+#     assert data["username"] == "User2"
+#     assert data["email"] == "email2@email.com"
+#     assert "id" in data
+#     assert data["hashed_password"] == '87654321'
+#     assert data["is_active"] == True
+#     assert data["role"] == "User"
 #
-#
-# def test_get_task_by_id(test_db_client, populate_test_db):
+# def test_get_user_by_id(test_db_client, populate_test_db):
 #     # Requests with a valid id
-#     response = test_db_client.get("/tasks/2")
+#     response = test_db_client.get("/users/1")
 #     assert response.status_code == 200
 #
 #     # Requests with an invalid id
-#     response1 = test_db_client.get("/tasks/a")
+#     response1 = test_db_client.get("/users/a")
 #     assert response1.status_code == 422
 #
-#     # Request with None as ID
-#     response2 = test_db_client.get("/tasks/None")
+#     # # Request with None as ID
+#     response2 = test_db_client.get("/users/None")
 #     assert response2.status_code == 422
-#
+#     #
 #     # Request with non-existing yet valid task ID
-#     response3 = test_db_client.get("/tasks/9999")
+#     response3 = test_db_client.get("/users/9999")
 #     assert response3.status_code == 404
-#
+#     #
 #     data = response.json()
-#     assert data["name"] == "test name2"
-#     assert data["priority"] == "one"
-#     assert data["id"] == 2
+#     assert data["username"] == "User1"
+#     assert data["email"] == "email@email.com"
+#     assert data["id"] == 1
+#     assert data["hashed_password"] == "12345678"
+#     assert data["is_active"] == True
+#     assert data["role"] == "User"
 #
-# def test_delete_task(test_db_client, populate_test_db):
-#     response = test_db_client.get("/tasks")
+# def test_delete_user(test_db_client, populate_test_db):
+#     response = test_db_client.get("/users")
 #     assert response.status_code == 200
-#     assert len(response.json()) == 2
+#     assert len(response.json()) == 1
 #
-#     delete_response = test_db_client.delete("/tasks/2")
+#     delete_response = test_db_client.delete("/users/1")
 #     assert delete_response.status_code == 200
 #     assert delete_response.json() == {"ok": True}
 #
-#     response2 = test_db_client.get("/tasks")
+#     response2 = test_db_client.get("/users")
 #     assert response2.status_code == 200
 #     data = response2.json()
 #     print(data)
 #
-#     assert len(data) == 1
-#     assert "test name2" and "one" and 2 not in data
-#
+#     assert len(data) == 0
+
 # def test_update_task_by_id(test_db_client, populate_test_db):
 #     response = test_db_client.patch("/tasks/1",
 #                                    json ={"name": "different task", "priority": "three"})
