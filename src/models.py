@@ -14,7 +14,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     role = Column(String)
 
-    tasks = relationship("Task", back_populates="user")
+    task = relationship("Task", back_populates="user")
 
     def __repr__(self):
         return f"id:{self.id}, username: {self.username}"
@@ -30,10 +30,9 @@ class Task(Base):
     complete = Column(Boolean, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
-    users = relationship("User", back_populates="tasks")
+    user = relationship("User", back_populates="task")
 
     def __repr__(self):
         return f"id:{self.id}, name: {self.username}, priority: {self.prority}"
-    __table_args__ = {'extend_existing': True}
 
 
