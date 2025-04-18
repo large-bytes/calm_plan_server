@@ -27,6 +27,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     hashed_password: str
+    role: str
 
 class User(UserBase):
     id: int

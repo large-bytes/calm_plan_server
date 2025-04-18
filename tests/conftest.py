@@ -25,10 +25,10 @@ def test_db_client():
 @pytest.fixture(scope="function")
 def populate_test_db():
     test_session = TestSessionLocal()
-    users = [User(username="User1", email="email@email.com", hashed_password="12345678")]
+    users = [User(username="User1", email="email@email.com", hashed_password="12345678", is_active =True, role="User")]
 
-    tasks = [Task(name="test name1", priority="five", user_id=1),
-             Task(name="test name2", priority="one", user_id=1)]
+    tasks = [Task(name="test name1", priority="five", complete=True, owner_id= 1),
+             Task(name="test name2", priority="one", complete=False, owner_id=1)]
     test_session.add_all(tasks)
     test_session.add_all(users)
 
