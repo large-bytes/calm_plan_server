@@ -1,7 +1,7 @@
 from typing import Optional, List
 from pydantic import BaseModel, Field
 
-
+"""Tasks"""
 class TaskBase(BaseModel):
     name: str
     priority: str
@@ -21,6 +21,7 @@ class TaskUpdate(BaseModel):
     class ConfigDict:
         from_attributes = True
 
+"""Users"""
 class UserBase(BaseModel):
     username: str
     email: str
@@ -43,3 +44,10 @@ class UserInDB(User):
 
     class ConfigDict:
         from_attributes = True
+
+"""Authentication"""
+class CreateUserRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+    role: str

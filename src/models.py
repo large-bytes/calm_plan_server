@@ -3,14 +3,14 @@ from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
 
-# #USERS MODEL CLASS -
+#USER MODEL CLASS -
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, nullable=False, unique=True)
     email = Column(String, unique=True, nullable=False)
-    hashed_password = Column(String(225))
+    hashed_password = Column(String(60))
     is_active = Column(Boolean, default=True)
     role = Column(String)
 
@@ -20,7 +20,7 @@ class User(Base):
         return f"id:{self.id}, username: {self.username}"
 
 
-# TASKS MODEL CLASS -
+# TASK MODEL CLASS -
 class Task(Base):
     __tablename__ = "tasks"
 
