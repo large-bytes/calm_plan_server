@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship, declarative_base
 Base = declarative_base()
 
 # #USERS MODEL CLASS -
-class Users(Base):
+class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -21,7 +21,7 @@ class Users(Base):
 
 
 # TASKS MODEL CLASS -
-class Tasks(Base):
+class Task(Base):
     __tablename__ = "tasks"
 
     id = Column(Integer, primary_key=True)
