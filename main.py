@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import tasks_router, users_router
+from routers import tasks_router, users_router, auth_router
 from src.database import get_db
 
 app = FastAPI()
@@ -25,5 +25,8 @@ app.include_router(tasks_router.router)
 
 #users router
 app.include_router(users_router.router)
+
+#auth router
+app.include_router(auth_router.router)
 
 
