@@ -33,6 +33,6 @@ class Task(Base):
     user = relationship("User", back_populates="task")
 
     def __repr__(self):
-        return f"id:{self.id}, name: {self.username}, priority: {self.prority}"
+        return f"id:{self.id}, name: {self.name}, priority: {self.priority}"
 
 
