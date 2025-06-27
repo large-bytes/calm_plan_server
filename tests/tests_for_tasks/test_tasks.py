@@ -16,7 +16,6 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
     assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'complete': True, 'owner_id': 1},
                                {'name': 'test name2', 'id': 2, 'priority': 'one', 'complete': False, 'owner_id': 1}]
 
-# @pytest.mark.skipif(True, reason="Condition met for skipping")
 def test_post_adds_data_to_test_db(test_db_client, populate_test_db):
     response = test_db_client.post("/tasks/",
                                     json ={"name": "test_task", "priority": "five", "complete": False, "owner_id": 1})
