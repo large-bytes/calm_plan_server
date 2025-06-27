@@ -17,15 +17,15 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
                                {'name': 'test name2', 'id': 2, 'priority': 'one', 'complete': False, 'owner_id': 1}]
 
 # @pytest.mark.skipif(True, reason="Condition met for skipping")
-def test_post_adds_data_to_test_db(test_db_client):
+def test_post_adds_data_to_test_db(test_db_client, populate_test_db):
     response = test_db_client.post("/tasks/",
-                                   json ={"name": "test_task", "priority": "five", "complete": False, "owner_id": 1})
+                                    json ={"name": "test_task", "priority": "five", "complete": False, "owner_id": 1})
     assert response.status_code == 200
     data = response.json()
+    assert data["id"] == 3
     assert data["name"] == "test_task"
     assert data["priority"] == "five"
-    assert data["id"] == 1
-    assert data["complete"] == False
+    assert data["complete"] is False
     assert data["owner_id"] == 1
 
 
@@ -50,7 +50,7 @@ def test_get_task_by_id(test_db_client, populate_test_db):
     assert data["name"] == "test name2"
     assert data["priority"] == "one"
     assert data["id"] == 2
-    assert data["complete"] == False
+    assert data["complete"] is False
     assert data["owner_id"] == 1
 
 def test_delete_task(test_db_client, populate_test_db):

@@ -7,7 +7,7 @@ class TaskBase(BaseModel):
     priority: str
 
 class TaskCreate(TaskBase):
-    user_id: int
+    owner_id: int
 
 
 #Task inherits form TaskBase
@@ -45,7 +45,7 @@ class UserInDB(User):
     class ConfigDict:
         from_attributes = True
 
-"""Authentication"""
+#Authentication
 class CreateUserRequest(BaseModel):
     username: str
     email: str
