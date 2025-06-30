@@ -13,12 +13,14 @@ def test_returns_empty_list_for_response(test_db_client):
 def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks")
     print(response.json())
-    assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'complete': True, 'owner_id': 1},
-                               {'name': 'test name2', 'id': 2, 'priority': 'one', 'complete': False, 'owner_id': 1}]
+    assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five',
+                                'complete': True, 'owner_id': 1},
+                               {'name': 'test name2', 'id': 2, 'priority': 'one',
+                                'complete': False, 'owner_id': 1}]
 
 def test_post_adds_data_to_test_db(test_db_client, populate_test_db):
     response = test_db_client.post("/tasks/",
-                                    json ={"name": "test_task", "priority": "five", "complete": False, "owner_id": 1})
+               json ={"name": "test_task", "priority": "five", "complete": False, "owner_id": 1})
     assert response.status_code == 200
     data = response.json()
     assert data["id"] == 3
