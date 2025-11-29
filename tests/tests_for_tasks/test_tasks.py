@@ -14,11 +14,14 @@ def test_db_is_populated_with_test_data(test_db_client, populate_test_db):
     response = test_db_client.get("/tasks")
     print(response.json())
     assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
-                               {'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
-@pytest.mark.skip
+                            {'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
+# @pytest.mark.skip
 def test_post_adds_data_to_test_db(test_db_client):
+    # Create a user first since tasks require a user_id
+    test_db_client.post("/users/", json={'username': 'User1', 'email': "email@email.com", 'hashed_password': "12345678", 'disabled': False})
+
     response = test_db_client.post("/tasks/",
-                                   json ={"name": "test_task", "priority": "five", "user_id": 1})
+                                json ={"name": "test_task", "priority": "five", "user_id": 1})
     assert response.status_code  == 200
     data = response.json()
     assert data["name"] == "test_task"
@@ -68,7 +71,7 @@ def test_delete_task(test_db_client, populate_test_db):
 
 def test_update_task_by_id(test_db_client, populate_test_db):
     response = test_db_client.patch("/tasks/1",
-                                   json ={"name": "different task", "priority": "three"})
+                                json ={"name": "different task", "priority": "three"})
 
     assert response.status_code == 200
     data = response.json()
