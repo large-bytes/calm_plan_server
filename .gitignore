@@ -5,8 +5,4 @@
 *.pyc
 __pycache__/
 .idea/
-
-# Virtual environment
-cp_server/
-venv/
-env/
+.txt_readME.md/
