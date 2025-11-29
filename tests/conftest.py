@@ -30,7 +30,7 @@ def populate_test_db():
     test_session.commit()
 
     tasks = [Task(name="test name1", priority="five", user_id=1),
-             Task(name="test name2", priority="one", user_id=1)]
+            Task(name="test name2", priority="one", user_id=1)]
     test_session.add_all(tasks)
 
     test_session.commit()
