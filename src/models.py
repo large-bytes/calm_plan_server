@@ -3,18 +3,17 @@ from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
 
-#USER MODEL CLASS -
+# #USER MODEL CLASS -
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, nullable=False, unique=True)
+    id = Column(Integer, primary_key=True)
+    username = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
-    hashed_password = Column(String(60))
-    is_active = Column(Boolean, default=True)
-    role = Column(String)
+    hashed_password = Column(String(225))
+    disabled = Column(Boolean, default=False)
 
-    task = relationship("Task", back_populates="user")
+    tasks = relationship("Task", back_populates="user")
 
     def __repr__(self):
         return f"id:{self.id}, username: {self.username}"
@@ -27,12 +26,12 @@ class Task(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     priority = Column(String, index=True)
-    complete = Column(Boolean, default=False)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
 
-    user = relationship("User", back_populates="task")
+    user = relationship("User", back_populates="tasks")
 
     def __repr__(self):
-        return f"id:{self.id}, name: {self.name}, priority: {self.priority}"
+        return f"id:{self.id}, name: {self.username}, priority: {self.prority}"
+    __table_args__ = {'extend_existing': True}
 
 
