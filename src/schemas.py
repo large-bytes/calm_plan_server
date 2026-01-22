@@ -34,12 +34,21 @@ class UserBase(BaseModel):
     email: str
 
 class UserCreate(UserBase):
-    hashed_password: str
+    password: str
 
 class User(UserBase):
     id: int
     disabled: bool
     tasks: List[dict] = []
+
+    class ConfigDict:
+        from_attributes = True
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = Field(default=None)
+    email: Optional[str] = Field(default=None)
+    password: Optional[str] = Field(default=None)
+
 
     class ConfigDict:
         from_attributes = True

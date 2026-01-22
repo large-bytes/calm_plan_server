@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from src import schemas
 from src.database import get_db
 from src.models import Task
+from src.password_utils import hash_password
 
 router = APIRouter(
     prefix = '/tasks',

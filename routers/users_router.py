@@ -2,11 +2,11 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from src import schemas
 from src.database import get_db
 from src.models import User
+from src.password_utils import hash_password
 
 router = APIRouter(
     prefix = '/users',
@@ -20,7 +20,9 @@ async def read_all_users(db: Session = Depends(get_db)):
 
 @router.post("")
 async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-        new_user = User(username=user.username, email=user.email, hashed_password=user.hashed_password, disabled=False )
+        
+        hashed_password = hash_password(user.password)
+        new_user = User(username=user.username, email=user.email, hashed_password=hashed_password, disabled=False )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
@@ -43,11 +45,17 @@ async def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     return {"ok": True}
 
 @router.patch("/{user_id}")
-async def update_user_by_id(user_id: int, updated_user: schemas.UserCreate, db: Session = Depends(get_db)):
+async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
     user_data = updated_user.model_dump(exclude_unset=True)
+
+    if "password" in user_data:
+        user_data["hashed_password"] = hash_password(user_data["password"])
+        print(user_data)
+
     for k, v in user_data.items():
         setattr(user, k, v)
+        print(setattr)
     db.commit()
     db.refresh(user)
     return user
