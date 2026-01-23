@@ -16,20 +16,12 @@ router = APIRouter(
 
 @router.post("")
 async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-        
         hashed_password = hash_password(user.password)
         new_user = User(username=user.username, email=user.email, hashed_password=hashed_password, disabled=False )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
         return new_user
-
-@router.get("/{user_id}")
-async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="Task not found")
-    return user
 
 @router.delete("/{user_id}")
 async def delete_user_by_id(user_id: int, db: Session = Depends(get_db),  current_user = Depends(get_current_user)):
