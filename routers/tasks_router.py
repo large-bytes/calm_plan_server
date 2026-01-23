@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from src import schemas
 from src.database import get_db
 from src.models import Task
-from src.password_utils import hash_password
+from src.dependencies import get_current_user
 
 router = APIRouter(
     prefix = '/tasks',
@@ -12,8 +12,8 @@ router = APIRouter(
 )
 
 @router.get("")
-async def read_all_tasks(db: Session = Depends(get_db)):
-    results = db.query(Task).all()
+async def read_all_tasks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    results = db.query(Task).filter(Task.user_id == current_user.id).all()
     return results
 
 @router.post("")
