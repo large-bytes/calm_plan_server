@@ -50,7 +50,7 @@ async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: 
     user_data = updated_user.model_dump(exclude_unset=True)
 
     if "password" in user_data:
-        user_data["hashed_password"] = hash_password(user_data["password"])
+        user_data["hashed_password"] = hash_password(user_data.pop("password"))
         print(user_data)
 
     for k, v in user_data.items():

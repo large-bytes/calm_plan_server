@@ -63,11 +63,11 @@ def test_delete_task(test_db_client, populate_test_db):
 
 def test_update_user_by_id(test_db_client, populate_test_db):
     response = test_db_client.patch("/users/1",
-                                json ={"username": "USER2", "email": "new2@gmail.com"})
+                                json ={"username": "USER2", "password": "newpassword123", "email": "new2@gmail.com"})
 
     assert response.status_code == 200
     data = response.json()
     assert data["username"] == "USER2"
-    # assert data["password"] == "12345678"
+    assert data["hashed_password"].startswith("$2b$")
     assert data["id"] == 1
     assert data["email"] == "new2@gmail.com"
