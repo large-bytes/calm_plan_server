@@ -7,16 +7,12 @@ from src import schemas
 from src.database import get_db
 from src.models import User
 from src.password_utils import hash_password
+from src.dependencies import get_current_user
 
 router = APIRouter(
     prefix = '/users',
     tags = ['crud_users']
 )
-
-@router.get("")
-async def read_all_users(db: Session = Depends(get_db)):
-    all_users = db.query(User).all()
-    return  all_users
 
 @router.post("")
 async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -36,7 +32,9 @@ async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     return user
 
 @router.delete("/{user_id}")
-async def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
+async def delete_user_by_id(user_id: int, db: Session = Depends(get_db),  current_user = Depends(get_current_user)):
+    if user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="Task not found")
@@ -45,8 +43,11 @@ async def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     return {"ok": True}
 
 @router.patch("/{user_id}")
-async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
+async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    if user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    user = db.query(User).filter(User.id == user_id, ).first()
     user_data = updated_user.model_dump(exclude_unset=True)
 
     if "password" in user_data:

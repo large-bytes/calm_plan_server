@@ -16,7 +16,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
 
     payload = decode_access_token(token)
     user_id = payload["sub"]
-
     user = db.query(User).filter(User.id == user_id).first()
 
     if not user:
