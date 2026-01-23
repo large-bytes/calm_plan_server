@@ -1,7 +1,7 @@
 
 import pytest
 
-def test_tasks_returns_client_gives_200(auth_client, populate_test_db):
+def test_tasks_returns_client_gives_200(auth_client):
     response = auth_client.get("/tasks")
     assert response.status_code == 200
 
@@ -10,13 +10,13 @@ def test_returns_not_authenticated_if_not_logged_in(test_db_client):
     assert response.status_code == 401
     assert response.json()["detail"] == 'Not authenticated'
 
-def test_db_is_populated_with_test_data(auth_client,populate_test_db):
+def test_db_is_populated_with_test_data(auth_client):
     response = auth_client.get("/tasks")
     print(response.json())
     assert response.json() == [{'name': 'test name1', 'id': 1, 'priority': 'five', 'user_id':1},
                             {'name': 'test name2', 'id': 2, 'priority': 'one', 'user_id':1}]
 
-def test_post_adds_data_to_test_db(auth_client, populate_test_db):
+def test_post_adds_data_to_test_db(auth_client):
     response = auth_client.post("/tasks/",
                                 json ={"name": "test_task", "priority": "five", "user_id": 1})
     assert response.status_code  == 200
@@ -27,7 +27,7 @@ def test_post_adds_data_to_test_db(auth_client, populate_test_db):
     assert data["user_id"] == 1
 
 
-def test_get_task_by_id(auth_client, populate_test_db):
+def test_get_task_by_id(auth_client):
     # Requests with a valid id
     response = auth_client.get("/tasks/2")
     assert response.status_code == 200
@@ -49,7 +49,7 @@ def test_get_task_by_id(auth_client, populate_test_db):
     assert data["priority"] == "one"
     assert data["id"] == 2
 
-def test_delete_task(auth_client, populate_test_db):
+def test_delete_task(auth_client):
     response = auth_client.get("/tasks")
     assert response.status_code == 200
     assert len(response.json()) == 2
@@ -66,7 +66,7 @@ def test_delete_task(auth_client, populate_test_db):
     assert len(data) == 1
     assert "test name2" and "one" and 2 not in data
 
-def test_update_task_by_id(auth_client, populate_test_db):
+def test_update_task_by_id(auth_client):
     response = auth_client.patch("/tasks/1",
                                 json ={"name": "different task", "priority": "three"})
 

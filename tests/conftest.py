@@ -43,5 +43,4 @@ def auth_client(test_db_client, populate_test_db):
     token = response.json()["access_token"]
 
     test_db_client.headers["Authorization"] = f"Bearer {token}"
-    print(test_db_client)
     return test_db_client
