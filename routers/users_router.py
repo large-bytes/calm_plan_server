@@ -25,9 +25,12 @@ async def add_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router.delete("/{user_id}")
 async def delete_user_by_id(user_id: int, db: Session = Depends(get_db),  current_user = Depends(get_current_user)):
+    print('user')
+
     if user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized")
     user = db.query(User).filter(User.id == user_id).first()
+    print('user',user)
     if not user:
         raise HTTPException(status_code=404, detail="Task not found")
     db.delete(user)
@@ -39,12 +42,11 @@ async def update_user_by_id(user_id: int, updated_user: schemas.UserUpdate, db: 
     if user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    user = db.query(User).filter(User.id == user_id, ).first()
+    user = db.query(User).filter(User.id == user_id).first()
     user_data = updated_user.model_dump(exclude_unset=True)
 
     if "password" in user_data:
         user_data["hashed_password"] = hash_password(user_data.pop("password"))
-        print(user_data)
 
     for k, v in user_data.items():
         setattr(user, k, v)

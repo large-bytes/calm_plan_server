@@ -9,10 +9,13 @@ def test_post_adds_data_to_test_db(test_db_client):
     assert data["hashed_password"].startswith('$2b$') == True 
     assert data["disabled"] == False
 
-#TODO
-# def test_user_can_delete_self(auth_client):
-#     response = auth_client.delete("/users/me")
-#     assert response.status_code == 422
+def test_user_can_delete_self(auth_client):
+    me_response = auth_client.get("/auth/me")
+    user_id = me_response.json()["id"]
+    response = auth_client.delete(f"/users/{user_id}")
+    
+    assert response.status_code == 200
+    assert response.json() == {"ok": True}
 
 def test_update_user_by_id(auth_client):
     response = auth_client.patch("/users/1",
