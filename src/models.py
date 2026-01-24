@@ -12,7 +12,6 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     hashed_password = Column(String(225))
     disabled = Column(Boolean, default=False)
-
     tasks = relationship("Task", back_populates="user")
 
     def __repr__(self):
