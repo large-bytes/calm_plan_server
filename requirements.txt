@@ -4,6 +4,7 @@ SQLAlchemy~=2.0.36
 pydantic~=2.9.2
 python-dotenv~=1.0.1
 alembic~=1.13.3
+uvicorn~=0.32.0 
 
 passlib~=1.7.4
 pip~=24.3.1
